@@ -1,0 +1,167 @@
+<!doctype html>
+<html lang="id">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Halo, GitHub Pages! — Kursus Mini</title>
+  <meta name="description" content="Modul 1: Halaman awal sederhana dengan satu interaksi." />
+  <style>
+    :root{
+      --bg: #f6f7fb;
+      --fg: #111827;
+      --muted:#6b7280;
+      --card: rgba(255,255,255,.8);
+      --border: rgba(17,17,17,.08);
+      --accent: #3b82f6;
+    }
+    .dark{
+      --bg: #0b1020;
+      --fg: #e5e7eb;
+      --muted:#9ca3af;
+      --card: rgba(17,24,39,.6);
+      --border: rgba(229,231,235,.06);
+      --accent: #60a5fa;
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji";
+      color:var(--fg); background:var(--bg);
+      background-image: radial-gradient(30% 30% at 10% 10%, rgba(59,130,246,.15), transparent),
+                        radial-gradient(25% 25% at 90% 20%, rgba(16,185,129,.12), transparent),
+                        radial-gradient(30% 30% at 50% 100%, rgba(244,63,94,.12), transparent);
+      min-height:100%;
+    }
+    header{
+      position:sticky; top:0; backdrop-filter:saturate(180%) blur(12px);
+      background:linear-gradient(to bottom, rgba(255,255,255,.6), rgba(255,255,255,0));
+      border-bottom:1px solid var(--border); z-index:10;
+    }
+    .dark header{ background: linear-gradient(to bottom, rgba(17,24,39,.6), rgba(17,24,39,0)); }
+    .wrap{ max-width:1100px; margin:0 auto; padding:14px 20px; display:flex; align-items:center; gap:12px; }
+    .brand{ font-weight:700; letter-spacing:.2px; }
+    .muted{ color:var(--muted) }
+    main{ display:grid; place-items:center; padding:48px 16px; }
+    .card{
+      width:min(720px, 92vw);
+      border:1px solid var(--border);
+      background:var(--card);
+      border-radius:24px; padding:28px; box-shadow:0 10px 30px rgba(0,0,0,.08);
+      backdrop-filter: blur(6px);
+    }
+    h1{ margin:0 0 8px; font-size: clamp(28px, 4vw, 40px)}
+    p{ line-height:1.6; margin:0 0 18px }
+    .row{ display:flex; flex-wrap:wrap; gap:10px; }
+    button{
+      appearance:none; border:1px solid var(--border); background:transparent; color:var(--fg);
+      padding:10px 14px; border-radius:14px; cursor:pointer; font-weight:600;
+      transition: transform .06s ease, background .2s ease;
+    }
+    button:hover{ transform: translateY(-1px) }
+    button:active{ transform: translateY(0) scale(.98) }
+    .cta{ background:var(--fg); color:var(--bg); }
+    footer{ text-align:center; font-size:14px; padding:32px 16px; color:var(--muted) }
+
+    /* Interaktif kecil: "orb" yang mengikuti kursor (dengan graceful degrade) */
+    .orb{
+      position:fixed; inset:auto 0 0 auto; width:28px; height:28px; border-radius:999px;
+      pointer-events:none; z-index:0; opacity:.85;
+      background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.95), rgba(255,255,255,.35));
+      mix-blend-mode: multiply; box-shadow: 0 12px 30px rgba(0,0,0,.18);
+      transform: translate3d(-50%,-50%,0);
+    }
+    .dark .orb{ background: radial-gradient(circle at 35% 35%, rgba(255,255,255,.15), rgba(255,255,255,.02)); box-shadow:none; mix-blend-mode: screen; }
+    @media (prefers-reduced-motion: reduce){ .orb{ display:none } }
+    .kbd{ font: 12px/1.2 ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace; border:1px solid var(--border); border-bottom-width:2px; border-radius:8px; padding:3px 6px }
+  </style>
+</head>
+<body>
+  <div class="orb" aria-hidden="true"></div>
+  <header>
+    <div class="wrap">
+      <div class="brand">🚀 Kursus Mini</div>
+      <div class="muted">Modul 1 — Hello Pages</div>
+      <div style="margin-left:auto" class="row">
+        <button id="themeBtn" aria-pressed="false" title="Ganti tema (T)">🌓 Ganti Tema <span class="kbd">T</span></button>
+        <button id="greetBtn" class="cta">✨ Acak Salam</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="card">
+      <h1>Halo, GitHub Pages! 👋</h1>
+      <p id="greet">Ini adalah halaman pertama kita di kursus mini. Satu tombol, satu interaksi, satu langkah maju.</p>
+      <p class="muted">Tip: Tekan <span class="kbd">T</span> untuk mengganti tema tanpa klik.</p>
+    </section>
+  </main>
+
+  <footer>
+    Modul 1 — Dibangun hanya dengan HTML, CSS, dan JS.
+  </footer>
+
+  <script>
+    // ===== Tema (persisten via localStorage) =====
+    const THEME_KEY = 'km_theme';
+    const root = document.documentElement;
+    const themeBtn = document.getElementById('themeBtn');
+    const greetBtn = document.getElementById('greetBtn');
+    const greet = document.getElementById('greet');
+
+    function setTheme(mode){
+      const isDark = mode === 'dark';
+      document.body.classList.toggle('dark', isDark);
+      themeBtn.setAttribute('aria-pressed', String(isDark));
+      localStorage.setItem(THEME_KEY, isDark ? 'dark' : 'light');
+    }
+
+    // Init theme dari preferensi user atau storage
+    const stored = localStorage.getItem(THEME_KEY);
+    const prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+    setTheme(stored || (prefersDark ? 'dark' : 'light'));
+
+    function toggleTheme(){ setTheme(document.body.classList.contains('dark') ? 'light' : 'dark'); }
+    themeBtn.addEventListener('click', toggleTheme);
+    window.addEventListener('keydown', (e)=>{ if(e.key.toLowerCase()==='t') toggleTheme(); });
+
+    // ===== Interaksi kecil: acak salam =====
+    const SALAMS = [
+      'Selamat datang! Hari ini milikmu. ✨',
+      'Gaskeun! Satu commit lagi. 🚀',
+      'Kode sedikit, progres selangit. 🌈',
+      'Santai, tapi konsisten. 🍵',
+      'Halo dari GitHub Pages! 🐙',
+      'Keren, kamu sudah mulai. 💪',
+    ];
+    greetBtn.addEventListener('click', ()=>{
+      const next = SALAMS[Math.floor(Math.random()*SALAMS.length)];
+      greet.textContent = next;
+    });
+
+    // ===== Orb mengikuti kursor (lerp) =====
+    const orb = document.querySelector('.orb');
+    let target = { x: innerWidth/2, y: innerHeight/2 };
+    let pos = { ...target };
+    let active = !window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    window.addEventListener('mousemove', (e)=>{ target.x = e.clientX; target.y = e.clientY; });
+    function lerp(a,b,t){ return a + (b-a)*t }
+    function loop(){
+      if(active){
+        pos.x = lerp(pos.x, target.x, .12);
+        pos.y = lerp(pos.y, target.y, .12);
+        orb.style.left = pos.x + 'px';
+        orb.style.top  = pos.y + 'px';
+      }
+      requestAnimationFrame(loop);
+    }
+    loop();
+
+    // Aksesibilitas: jika preferensi berubah, hormati
+    try{
+      const mq = window.matchMedia('(prefers-reduced-motion: reduce)');
+      mq.addEventListener('change', (e)=>{ active = !e.matches; orb.style.display = e.matches ? 'none' : 'block'; });
+    }catch(err){ /* Safari lama fallback */ }
+  </script>
+</body>
+</html>
