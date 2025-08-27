@@ -3,51 +3,48 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Halo, GitHub Pages! — Kursus Mini</title>
+  <title>Halo, GitHub Pages! – Kursus Mini</title>
   <meta name="description" content="Modul 1: Halaman awal sederhana dengan satu interaksi." />
-
+  
   <!-- hubungkan css -->
-  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style.css" />
+  
   <!-- favicon -->
-  <link rel="icon" type="image/png" href="img/favicon.png">
-<!-- SEO dasar -->
-<meta name="description" content="Website kursus mini — belajar membuat situs interaktif di GitHub Pages langkah demi langkah.">
-<meta name="author" content="Fian">
-
-<!-- Open Graph (untuk preview link di WhatsApp, FB, dsb) -->
-<meta property="og:title" content="Kursus Mini - Hello Pages">
-<meta property="og:description" content="Belajar bikin website unik, interaktif, dan keren di GitHub Pages.">
-<meta property="og:type" content="website">
-<meta property="og:url" content="https://fian245.github.io/myinteractivefirstsite/">
-<meta property="og:image" content="https://fian245.github.io/myinteractivefirstsite/img/preview.png">
-
+  <link rel="icon" type="image/png" href="img/favicon.png" />
+  
+  <!-- SEO dasar -->
+  <meta name="description" content="Website kursus mini – belajar membuat situs interaktif di GitHub Pages langkah demi langkah." />
+  <meta name="author" content="Fian" />
+  
+  <!-- Open Graph (untuk preview link) -->
+  <meta property="og:title" content="Kursus Mini – Hello Pages" />
+  <meta property="og:description" content="Belajar bikin website unik, interaktif, dan keren di GitHub Pages." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://fian245.github.io/myinteractivefirstsite/" />
+  <meta property="og:image" content="https://fian245.github.io/myinteractivefirstsite/img/preview.png" />
 </head>
 <body>
-  <div class="orb" aria-hidden="true"></div>
-  <header>
-    <div class="wrap">
-      <div class="brand">🚀 Kursus Mini</div>
-      <div class="muted">Modul 1 — Hello Pages</div>
-      <div style="margin-left:auto" class="row">
-        <button id="themeBtn" aria-pressed="false" title="Ganti tema (T)">🌓 Ganti Tema <span class="kbd">T</span></button>
-        <button id="greetBtn" class="cta">✨ Acak Salam</button>
-      </div>
-    </div>
-  </header>
+  <h1>Halo, Dunia!</h1>
+  <p>Selamat datang di kursus mini GitHub Pages 🚀</p>
+  
+  <!-- Tip hanya tampil di desktop -->
+  <p class="desktop-tip">💡 Tip: Tekan <b>T</b> untuk mengganti tema tanpa klik.</p>
+  
+  <!-- contoh interaksi tombol -->
+  <button onclick="toggleTheme()">Ganti Tema</button>
+  
+  <script>
+    // fungsi JS untuk ganti tema
+    function toggleTheme() {
+      document.body.classList.toggle("dark");
+    }
 
-  <main>
-    <section class="card">
-      <h1>Halo, GitHub Pages! 👋</h1>
-      <p id="greet">Ini adalah halaman pertama kita di kursus mini. Satu tombol, satu interaksi, satu langkah maju.</p>
-      <p class="muted">Tip: Tekan <span class="kbd">T</span> untuk mengganti tema tanpa klik.</p>
-    </section>
-  </main>
-
-  <footer>
-    Modul 1 — Dibangun hanya dengan HTML, CSS, dan JS.
-  </footer>
-
-  <!-- hubungkan js -->
-  <script defer src="js/script.js"></script>
+    // tambahan: bisa ganti tema pakai keyboard T
+    document.addEventListener("keydown", function(e) {
+      if (e.key === "t" || e.key === "T") {
+        toggleTheme();
+      }
+    });
+  </script>
 </body>
 </html>
